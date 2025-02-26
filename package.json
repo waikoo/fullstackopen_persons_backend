@@ -1,0 +1,16 @@
+{
+  "name": "phonebook_backend",
+  "version": "0.0.1",
+  "description": "Backend for the phonebook app in the https://fullstackopen.com course",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "waikoo",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
