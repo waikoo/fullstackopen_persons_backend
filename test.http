@@ -3,13 +3,13 @@ GET http://localhost:3001/api/persons
 ###
 DELETE http://localhost:3001/api/persons/1
 
-###
+### Good request
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-  "name": "Lucky Luke",
-  "number": "999-222-555"
+  "name": "Inspector Gadget",
+  "number": "555-292-546"
 }
 
 ### Bad request
