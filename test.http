@@ -1,14 +1,17 @@
 GET http://localhost:3001/api/persons
 
+### Single person
+GET http://localhost:3001/api/persons/67c0d8925425cfb40e14bd82
+
 ###
-DELETE http://localhost:3001/api/persons/1
+DELETE http://localhost:3001/api/persons/67c0d73840876b394fe725bc
 
 ### Good request
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-  "name": "Inspector Gadget",
+  "name": "Animaniacs",
   "number": "555-292-546"
 }
 
@@ -21,3 +24,5 @@ Content-Type: application/json
   "number": "11111"
 }
 
+###
+GET http://localhost:3001/info
