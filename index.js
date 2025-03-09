@@ -12,7 +12,7 @@ app.use(express.static('dist'))
 
 app.use(cors())
 
-morgan.token('body', (req, res) => {
+morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
 
@@ -55,12 +55,12 @@ app.get('/api/persons/:id', (req, res, next) => {
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {
-  Entry.findByIdAndDelete(req.params.id).then(result => {
+  Entry.findByIdAndDelete(req.params.id).then(() => {
     res.status(204).end()
   }).catch(err => next(err))
 })
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body
 
   if (!body.name || !body.number) {
@@ -74,25 +74,24 @@ app.post('/api/persons', (req, res) => {
 
   newPerson.save().then(savedEntry => {
     res.json(savedEntry)
-  })
+  }).catch(err => next(err))
 })
 
 app.put('/api/persons/:id', (req, res, next) => {
-  const body = req.body
+  const { name, number } = req.body
 
-  const person = {
-    name: body.name,
-    number: body.number,
-  }
-
-  Entry.findByIdAndUpdate(req.params.id, person, { new: true })
+  Entry.findByIdAndUpdate(
+    req.params.id,
+    { name, number },
+    { new: true, runValidators: true, context: 'query' }
+  )
     .then(updatedEntry => {
       if (updatedEntry) {
         res.json(updatedEntry)
       } else {
         res.status(404).end()
       }
-    })
+    }).catch(err => next(err))
 })
 
 const errorHandler = (err, req, res, next) => {
@@ -100,6 +99,10 @@ const errorHandler = (err, req, res, next) => {
 
   if (err.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
+  }
+
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({ error: err.message })
   }
 
   next(err)

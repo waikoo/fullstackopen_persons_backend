@@ -26,3 +26,12 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3001/info
+
+###
+PUT http://localhost:3001/api/persons/67ccb2734bcf1793cb9bbd9b
+Content-Type: application/json
+
+{
+  "name": "Gonzalez",
+  "number": "111-192-516"
+}

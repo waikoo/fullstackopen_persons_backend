@@ -16,8 +16,22 @@ mongoose
   })
 
 const phonebookSchema = new mongoose.Schema({
-  name: String,
-  number: String,
+  name: {
+    type: String,
+    minLength: 3,
+    required: true,
+  },
+  number: {
+    type: String,
+    minLength: 8,
+    required: [true, 'Phone number is a required field'],
+    validate: {
+      validator: function(v) {
+        return /^(\d{2}|\d{3})-\d+$/.test(v)
+      },
+      message: props => `${props.value} is not a valid phone number. Should start with two 00-* or three 000-* digits and a hyphen, then numbers`,
+    }
+  },
 })
 
 phonebookSchema.set('toJSON', {
